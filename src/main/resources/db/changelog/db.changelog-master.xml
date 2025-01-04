@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="edukaizen" labels="1-create-users-table">
+        <customChange class="db.migrations.V1__CreateUsersTable"/>
+    </changeSet>
+    <changeSet id="2" author="edukaizen" labels="2-create-masters-table">
+        <customChange class="db.migrations.V2__CreateMastersTable"/>
+    </changeSet>
+    <changeSet id="3" author="edukaizen" labels="3-create-courses-table">
+        <customChange class="db.migrations.V3__CreateCoursesTable"/>
+    </changeSet>
+</databaseChangeLog>

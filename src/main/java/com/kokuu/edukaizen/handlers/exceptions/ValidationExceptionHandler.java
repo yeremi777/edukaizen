@@ -1,4 +1,4 @@
-package com.kokuu.edukaizen.exceptions;
+package com.kokuu.edukaizen.handlers.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

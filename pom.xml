@@ -8,7 +8,7 @@
 		<version>3.3.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.kokuu.edukaizen</groupId>
+	<groupId>com.kokuu</groupId>
 	<artifactId>edukaizen</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>edukaizen</name>

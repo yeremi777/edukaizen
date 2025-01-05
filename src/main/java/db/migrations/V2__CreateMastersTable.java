@@ -16,7 +16,7 @@ import liquibase.exception.ValidationErrors;
 import liquibase.resource.ResourceAccessor;
 
 public class V2__CreateMastersTable implements CustomTaskChange, CustomTaskRollback {
-    private final String[] tables = { "master_categories", "master_sub_categories", "master_tools",
+    private final String[] tables = { "master_categories", "master_subcategories", "master_tools",
             "master_languages" };
 
     @Override
@@ -26,6 +26,20 @@ public class V2__CreateMastersTable implements CustomTaskChange, CustomTaskRollb
 
             try (Statement stmt = connection.createStatement()) {
                 List<String> createSql = Arrays.asList(this.tables).stream().map(table -> {
+                    if (table == "master_subcategories") {
+                        return String.format("""
+                                CREATE TABLE %s (
+                                    id SERIAL PRIMARY KEY,
+                                    category_id INT NOT NULL,
+                                    name VARCHAR(255) NOT NULL,
+                                    created_at TIMESTAMP DEFAULT NOW(),
+                                    updated_at TIMESTAMP DEFAULT NOW(),
+
+                                    FOREIGN KEY (category_id) REFERENCES master_categories(id) ON DELETE CASCADE
+                                ); \n
+                                """, table);
+                    }
+
                     return String.format("""
                             CREATE TABLE %s (
                                 id SERIAL PRIMARY KEY,

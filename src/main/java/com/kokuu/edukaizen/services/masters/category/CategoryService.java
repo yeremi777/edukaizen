@@ -1,19 +1,19 @@
 package com.kokuu.edukaizen.services.masters.category;
 
-import java.util.List;
 import java.util.Optional;
 
-import com.kokuu.edukaizen.dto.masters.CategoryDTO;
+import com.kokuu.edukaizen.dto.masters.category.IndexCategoryDTO;
+import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
 import com.kokuu.edukaizen.entities.masters.Category;
 
 public interface CategoryService {
-    List<Category> getCategories();
+    Object getCategories(IndexCategoryDTO indexCategoryDTO);
 
     Optional<Category> getCategory(int id);
 
-    void storeCategory(CategoryDTO input);
+    void storeCategory(StoreCategoryDTO input);
 
-    void updateCategory(Category category, CategoryDTO input);
+    void updateCategory(Category category, StoreCategoryDTO input);
 
     void deleteCategory(Category category);
 }

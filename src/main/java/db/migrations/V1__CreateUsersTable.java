@@ -59,8 +59,6 @@ public class V1__CreateUsersTable implements CustomTaskChange, CustomTaskRollbac
                     return String.format("('%s')", role);
                 }).collect(Collectors.toList());
 
-                System.out.println(rolesSql.toString());
-
                 stmt.execute(String.format("INSERT INTO roles (name) VALUES %s", String.join(", ", rolesSql)));
             }
         } catch (Exception e) {

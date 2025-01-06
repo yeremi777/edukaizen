@@ -6,12 +6,11 @@ import com.kokuu.edukaizen.dto.PaginatedResult;
 import com.kokuu.edukaizen.dto.masters.category.IndexCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
 import com.kokuu.edukaizen.entities.masters.Category;
+import com.kokuu.edukaizen.handlers.PaginatedResponseHandler;
 import com.kokuu.edukaizen.services.masters.category.CategoryService;
 
 import jakarta.validation.Valid;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -46,11 +45,11 @@ public class CategoryController {
         Object result = categoryService.getCategories(indexCategoryDTO);
 
         if (result instanceof PaginatedResult<?>) {
-            Map<String, Object> response = new HashMap<>();
             PaginatedResult<?> paginatedResult = (PaginatedResult<?>) result;
 
-            response.put("data", paginatedResult.getData());
-            response.put("paginate", paginatedResult.getPaginate());
+            PaginatedResponseHandler response = new PaginatedResponseHandler(
+                    paginatedResult.getData(),
+                    paginatedResult.getPaginate());
 
             return ResponseEntity.ok(response);
         }

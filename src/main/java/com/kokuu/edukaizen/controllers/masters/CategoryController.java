@@ -2,6 +2,7 @@ package com.kokuu.edukaizen.controllers.masters;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.kokuu.edukaizen.dto.PaginatedResult;
 import com.kokuu.edukaizen.dto.masters.category.IndexCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
@@ -58,35 +59,35 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<String> store(@Valid @RequestBody StoreCategoryDTO input) {
+    public ResponseEntity<TextNode> store(@Valid @RequestBody StoreCategoryDTO input) {
         categoryService.storeCategory(input);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("success");
+        return ResponseEntity.status(HttpStatus.CREATED).body(TextNode.valueOf("success"));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id, @RequestBody StoreCategoryDTO input) {
+    public ResponseEntity<TextNode> update(@PathVariable int id, @RequestBody StoreCategoryDTO input) {
         Optional<Category> category = categoryService.getCategory(id);
 
         if (category.isPresent()) {
             categoryService.updateCategory(category.get(), input);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(TextNode.valueOf("not found"));
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        return ResponseEntity.status(HttpStatus.OK).body(TextNode.valueOf("success"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
+    public ResponseEntity<TextNode> delete(@PathVariable int id) {
         Optional<Category> category = categoryService.getCategory(id);
 
         if (category.isPresent()) {
             categoryService.deleteCategory(category.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(TextNode.valueOf("not found"));
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        return ResponseEntity.status(HttpStatus.OK).body(TextNode.valueOf("success"));
     }
 }

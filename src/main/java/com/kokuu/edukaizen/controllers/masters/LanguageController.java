@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.kokuu.edukaizen.dto.PaginatedResult;
 import com.kokuu.edukaizen.dto.masters.language.IndexLanguageDTO;
 import com.kokuu.edukaizen.dto.masters.language.StoreLanguageDTO;
@@ -57,35 +58,35 @@ public class LanguageController {
     }
 
     @PostMapping
-    public ResponseEntity<String> store(@Valid @RequestBody StoreLanguageDTO input) {
+    public ResponseEntity<TextNode> store(@Valid @RequestBody StoreLanguageDTO input) {
         languageService.storeLanguage(input);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("success");
+        return ResponseEntity.status(HttpStatus.CREATED).body(TextNode.valueOf("success"));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id, @RequestBody StoreLanguageDTO input) {
+    public ResponseEntity<TextNode> update(@PathVariable int id, @RequestBody StoreLanguageDTO input) {
         Optional<Language> language = languageService.getLanguage(id);
 
         if (language.isPresent()) {
             languageService.updateLanguage(language.get(), input);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(TextNode.valueOf("not found"));
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        return ResponseEntity.status(HttpStatus.OK).body(TextNode.valueOf("success"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
+    public ResponseEntity<TextNode> delete(@PathVariable int id) {
         Optional<Language> language = languageService.getLanguage(id);
 
         if (language.isPresent()) {
             languageService.deleteLanguage(language.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(TextNode.valueOf("not found"));
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        return ResponseEntity.status(HttpStatus.OK).body(TextNode.valueOf("success"));
     }
 }

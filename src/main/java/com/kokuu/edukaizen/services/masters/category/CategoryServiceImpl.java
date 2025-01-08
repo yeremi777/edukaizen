@@ -1,9 +1,14 @@
 package com.kokuu.edukaizen.services.masters.category;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -11,16 +16,23 @@ import com.kokuu.edukaizen.dao.masters.CategoryRepository;
 import com.kokuu.edukaizen.dto.PaginatedResult;
 import com.kokuu.edukaizen.dto.masters.category.IndexCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
+import com.kokuu.edukaizen.dto.masters.category.UpdateCategoryDTO;
 import com.kokuu.edukaizen.entities.masters.Category;
+import com.kokuu.edukaizen.entities.masters.Subcategory;
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
+    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, JdbcTemplate jdbcTemplate,
+            NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.categoryRepository = categoryRepository;
+        this.jdbcTemplate = jdbcTemplate;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
@@ -57,17 +69,55 @@ public class CategoryServiceImpl implements CategoryService {
     public void storeCategory(StoreCategoryDTO input) {
         Category category = new Category(input.name());
 
+        if (input.subcategories() != null && input.subcategories().length > 0) {
+            List<Subcategory> subcategories = Arrays.stream(input.subcategories())
+                    .map(name -> new Subcategory(name, category))
+                    .toList();
+
+            category.setSubcategories(subcategories);
+        }
+
         categoryRepository.save(category);
     }
 
     @Override
     @Transactional
-    public void updateCategory(Category category, StoreCategoryDTO input) {
+    public void updateCategory(Category category, UpdateCategoryDTO input) {
         if (input.name() != null) {
             category.setName(input.name());
         }
 
         categoryRepository.save(category);
+
+        if (input.delete_subcategory_ids() != null && input.delete_subcategory_ids().length > 0) {
+            String sql = """
+                    DELETE FROM master_subcategories
+                    WHERE id IN (:ids)
+                    """;
+
+            MapSqlParameterSource params = new MapSqlParameterSource();
+            params.addValue("ids", Arrays.asList(input.delete_subcategory_ids()));
+
+            namedParameterJdbcTemplate.update(sql, params);
+        }
+
+        if (input.subcategories() != null && input.subcategories().length > 0) {
+            String sql = """
+                    INSERT INTO master_subcategories (category_id, name)
+                    SELECT ?, ?
+                    WHERE NOT EXISTS(
+                        SELECT 1 FROM master_subcategories WHERE category_id = ? AND name = ?
+                    )
+                    """;
+
+            jdbcTemplate.batchUpdate(sql, Arrays.asList(input.subcategories()), input.subcategories().length,
+                    (ps, data) -> {
+                        ps.setInt(1, category.getId());
+                        ps.setString(2, data);
+                        ps.setInt(3, category.getId());
+                        ps.setString(4, data);
+                    });
+        }
     }
 
     @Override

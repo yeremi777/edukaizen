@@ -1,17 +1,16 @@
 package com.kokuu.edukaizen.entities.masters;
 
 import java.util.Date;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -19,11 +18,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "master_categories")
+@Table(name = "master_subcategories")
 @Getter
 @Setter
 @ToString
-public class Category {
+public class Subcategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -38,19 +37,21 @@ public class Category {
     @Column(name = "updated_at", insertable = false, updatable = true)
     private Date updated_at;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Subcategory> subcategories;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference
+    private Category category;
 
     @PreUpdate
     protected void onUpdate() {
         this.updated_at = new Date();
     }
 
-    public Category() {
+    public Subcategory() {
     }
 
-    public Category(String name) {
+    public Subcategory(String name, Category category) {
         this.name = name;
+        this.category = category;
     }
 }

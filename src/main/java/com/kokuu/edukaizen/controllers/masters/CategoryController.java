@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import com.kokuu.edukaizen.dto.PaginatedResult;
 import com.kokuu.edukaizen.dto.masters.category.IndexCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
+import com.kokuu.edukaizen.dto.masters.category.UpdateCategoryDTO;
 import com.kokuu.edukaizen.entities.masters.Category;
 import com.kokuu.edukaizen.handlers.PaginatedResponseHandler;
 import com.kokuu.edukaizen.services.masters.category.CategoryService;
@@ -66,7 +67,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TextNode> update(@PathVariable int id, @RequestBody StoreCategoryDTO input) {
+    public ResponseEntity<TextNode> update(@PathVariable int id, @RequestBody UpdateCategoryDTO input) {
         Optional<Category> category = categoryService.getCategory(id);
 
         if (category.isPresent()) {

@@ -28,6 +28,9 @@ public class Subcategory {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "category_id", insertable = false, updatable = false)
+    private int category_id;
+
     @Column(name = "name")
     private String name;
 

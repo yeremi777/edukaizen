@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.TextNode;
+import com.kokuu.edukaizen.api_docs.LanguageApiDoc;
 import com.kokuu.edukaizen.dto.PaginatedResult;
 import com.kokuu.edukaizen.dto.masters.language.IndexLanguageDTO;
 import com.kokuu.edukaizen.dto.masters.language.StoreLanguageDTO;
@@ -27,7 +28,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/master/languages")
-public class LanguageController {
+public class LanguageController implements LanguageApiDoc {
     private LanguageService languageService;
 
     public LanguageController(LanguageService languageService) {

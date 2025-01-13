@@ -3,6 +3,7 @@ package com.kokuu.edukaizen.controllers.masters;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.TextNode;
+import com.kokuu.edukaizen.api_docs.CategoryApiDoc;
 import com.kokuu.edukaizen.dto.PaginatedResult;
 import com.kokuu.edukaizen.dto.masters.category.IndexCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/master/categories")
-public class CategoryController {
+public class CategoryController implements CategoryApiDoc {
     private CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {

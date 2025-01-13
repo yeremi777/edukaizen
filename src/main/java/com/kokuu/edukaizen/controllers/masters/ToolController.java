@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.TextNode;
+import com.kokuu.edukaizen.api_docs.ToolApiDoc;
 import com.kokuu.edukaizen.dto.PaginatedResult;
 import com.kokuu.edukaizen.dto.masters.tool.IndexToolDTO;
 import com.kokuu.edukaizen.dto.masters.tool.StoreToolDTO;
@@ -27,13 +28,14 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/master/tools")
-public class ToolController {
+public class ToolController implements ToolApiDoc {
     private ToolService toolService;
 
     public ToolController(ToolService toolService) {
         this.toolService = toolService;
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<Object> index(@RequestParam Map<String, String> query) {
         String keyword = query.get("keyword");
@@ -57,6 +59,7 @@ public class ToolController {
         return ResponseEntity.ok(result);
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<TextNode> store(@Valid @RequestBody StoreToolDTO input) {
         toolService.storeTool(input);
@@ -64,6 +67,7 @@ public class ToolController {
         return ResponseEntity.status(HttpStatus.CREATED).body(TextNode.valueOf("success"));
     }
 
+    @Override
     @PatchMapping("/{id}")
     public ResponseEntity<TextNode> update(@PathVariable int id, @RequestBody StoreToolDTO input) {
         Optional<Tool> tool = toolService.getTool(id);
@@ -77,6 +81,7 @@ public class ToolController {
         return ResponseEntity.status(HttpStatus.OK).body(TextNode.valueOf("success"));
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<TextNode> delete(@PathVariable int id) {
         Optional<Tool> tool = toolService.getTool(id);

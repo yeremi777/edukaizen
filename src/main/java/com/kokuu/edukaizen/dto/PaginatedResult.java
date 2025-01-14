@@ -18,20 +18,20 @@ public class PaginatedResult<T> {
 
     @Getter
     public static class Paginator {
-        private Integer currentPage;
-        private Integer lastPage;
-        private Integer perPage;
+        private Integer current_page;
+        private Integer last_page;
+        private Integer per_page;
         private Integer from;
         private Integer to;
         private Long total;
 
         public Paginator(Page<?> page) {
-            this.currentPage = page.getNumber() + 1;
-            this.lastPage = page.getTotalPages() != 0 ? page.getTotalPages() : 1;
-            this.perPage = page.getSize();
+            this.current_page = page.getNumber() + 1;
+            this.last_page = page.getTotalPages() != 0 ? page.getTotalPages() : 1;
+            this.per_page = page.getSize();
             this.total = page.getTotalElements();
 
-            if (this.currentPage <= this.lastPage) {
+            if (this.current_page <= this.last_page) {
                 if (this.total != 0) {
                     this.from = page.getNumber() * page.getSize() + 1;
                 } else {
@@ -41,9 +41,9 @@ public class PaginatedResult<T> {
                 this.from = null;
             }
 
-            if (this.currentPage < this.lastPage) {
+            if (this.current_page < this.last_page) {
                 this.to = (page.getNumber() + 1) * page.getSize();
-            } else if (this.currentPage == this.lastPage) {
+            } else if (this.current_page == this.last_page) {
                 this.to = Math.toIntExact(total);
             } else {
                 this.to = null;

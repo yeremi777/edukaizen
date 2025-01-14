@@ -35,9 +35,9 @@ public class LanguageServiceImpl implements LanguageService {
 
         Pageable pageable = Pageable.unpaged();
 
-        if (indexLanguageDTO.page() != null || indexLanguageDTO.perPage() != null) {
+        if (indexLanguageDTO.page() != null || indexLanguageDTO.per_page() != null) {
             Integer page = indexLanguageDTO.page() != null ? indexLanguageDTO.page() : 1;
-            Integer perPage = indexLanguageDTO.perPage() != null ? indexLanguageDTO.perPage() : 10;
+            Integer perPage = indexLanguageDTO.per_page() != null ? indexLanguageDTO.per_page() : 10;
 
             pageable = Pageable.ofSize(perPage).withPage(page - 1);
 

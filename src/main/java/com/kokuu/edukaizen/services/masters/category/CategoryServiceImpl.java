@@ -47,9 +47,9 @@ public class CategoryServiceImpl implements CategoryService {
 
         Pageable pageable = Pageable.unpaged();
 
-        if (indexCategoryDTO.page() != null || indexCategoryDTO.perPage() != null) {
+        if (indexCategoryDTO.page() != null || indexCategoryDTO.per_page() != null) {
             Integer page = indexCategoryDTO.page() != null ? indexCategoryDTO.page() : 1;
-            Integer perPage = indexCategoryDTO.perPage() != null ? indexCategoryDTO.perPage() : 10;
+            Integer perPage = indexCategoryDTO.per_page() != null ? indexCategoryDTO.per_page() : 10;
 
             pageable = Pageable.ofSize(perPage).withPage(page - 1);
 

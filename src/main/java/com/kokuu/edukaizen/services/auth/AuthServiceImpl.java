@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import com.kokuu.edukaizen.common.Password;
 import com.kokuu.edukaizen.common.enums.UserRole;
 import com.kokuu.edukaizen.dao.UserRepository;
-import com.kokuu.edukaizen.dto.auth.LoginDTO;
 import com.kokuu.edukaizen.dto.auth.RegisterDTO;
 import com.kokuu.edukaizen.entities.User;
 
@@ -29,15 +28,17 @@ public class AuthServiceImpl implements AuthService {
                 input.lastName(),
                 input.username(),
                 input.email(),
-                input.password());
+                password.encryptPassword(input.password()));
 
         user.setRoleId(UserRole.Student.getValue());
-        user.setPassword(password.encryptPassword(input.password()));
 
         userRepository.save(user);
     }
 
     @Override
-    public void login(LoginDTO input) {
+    public User findUserByIdentity(String value) {
+        User user = userRepository.findUserByIdentity(value);
+
+        return user;
     }
 }

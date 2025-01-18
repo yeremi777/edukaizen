@@ -1,6 +1,6 @@
 package com.kokuu.edukaizen.common;
 
-public class StringUtils {
+public class StringHelper {
     public static String camelToSnake(String value) {
         if (value == null || value.isEmpty()) {
             return value;

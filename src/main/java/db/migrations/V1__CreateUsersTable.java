@@ -35,8 +35,8 @@ public class V1__CreateUsersTable implements CustomTaskChange, CustomTaskRollbac
                             role_id INT NOT NULL,
                             first_name VARCHAR(255) NOT NULL,
                             last_name VARCHAR(255) NOT NULL,
-                            username VARCHAR(255) NOT NULL,
-                            email VARCHAR(255) NOT NULL,
+                            username VARCHAR(255) NOT NULL UNIQUE,
+                            email VARCHAR(255) NOT NULL UNIQUE,
                             password VARCHAR(255) NOT NULL,
                             phone_number VARCHAR(255),
                             profile_image VARCHAR(255),
@@ -60,6 +60,11 @@ public class V1__CreateUsersTable implements CustomTaskChange, CustomTaskRollbac
                 }).collect(Collectors.toList());
 
                 stmt.execute(String.format("INSERT INTO roles (name) VALUES %s", String.join(", ", rolesSql)));
+
+                String createAdmin = """
+                        INSERT INTO users (role_id, first_name, last_name, username, email, password) VALUES (1, 'Admin', 'Admin', 'admin', 'admin@admin.com', '$2a$10$9nEpr9V3tcqDxhC8s78Fc.s8zdgcEYhjPQ9uJcU1xWXkwfLNJIDAO');
+                        """; // password = edukaizen123
+                stmt.execute(createAdmin);
             }
         } catch (Exception e) {
             throw new CustomChangeException("Failed to execute migration: " + e.getMessage(), e);

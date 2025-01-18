@@ -33,10 +33,10 @@ public class Category {
     private String name;
 
     @Column(name = "created_at", insertable = false, updatable = false)
-    private Date created_at;
+    private Date createdAt;
 
     @Column(name = "updated_at", insertable = false, updatable = true)
-    private Date updated_at;
+    private Date updatedAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -44,7 +44,7 @@ public class Category {
 
     @PreUpdate
     protected void onUpdate() {
-        this.updated_at = new Date();
+        this.updatedAt = new Date();
     }
 
     public Category() {

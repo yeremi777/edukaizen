@@ -35,10 +35,10 @@ public class Subcategory {
     private String name;
 
     @Column(name = "created_at", insertable = false, updatable = false)
-    private Date created_at;
+    private Date createdAt;
 
     @Column(name = "updated_at", insertable = false, updatable = true)
-    private Date updated_at;
+    private Date updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -47,7 +47,7 @@ public class Subcategory {
 
     @PreUpdate
     protected void onUpdate() {
-        this.updated_at = new Date();
+        this.updatedAt = new Date();
     }
 
     public Subcategory() {

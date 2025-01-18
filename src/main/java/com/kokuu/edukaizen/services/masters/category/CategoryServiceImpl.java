@@ -47,9 +47,9 @@ public class CategoryServiceImpl implements CategoryService {
 
         Pageable pageable = Pageable.unpaged();
 
-        if (indexCategoryDTO.page() != null || indexCategoryDTO.per_page() != null) {
+        if (indexCategoryDTO.page() != null || indexCategoryDTO.perPage() != null) {
             Integer page = indexCategoryDTO.page() != null ? indexCategoryDTO.page() : 1;
-            Integer perPage = indexCategoryDTO.per_page() != null ? indexCategoryDTO.per_page() : 10;
+            Integer perPage = indexCategoryDTO.perPage() != null ? indexCategoryDTO.perPage() : 10;
 
             pageable = Pageable.ofSize(perPage).withPage(page - 1);
 
@@ -89,14 +89,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(category);
 
-        if (input.delete_subcategory_ids() != null && input.delete_subcategory_ids().length > 0) {
+        if (input.deleteSubcategoryIds() != null && input.deleteSubcategoryIds().length > 0) {
             String sql = """
                     DELETE FROM master_subcategories
                     WHERE id IN (:ids)
                     """;
 
             MapSqlParameterSource params = new MapSqlParameterSource();
-            params.addValue("ids", Arrays.asList(input.delete_subcategory_ids()));
+            params.addValue("ids", Arrays.asList(input.deleteSubcategoryIds()));
 
             namedParameterJdbcTemplate.update(sql, params);
         }

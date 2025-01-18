@@ -35,9 +35,9 @@ public class ToolServiceImpl implements ToolService {
 
         Pageable pageable = Pageable.unpaged();
 
-        if (indexToolDTO.page() != null || indexToolDTO.per_page() != null) {
+        if (indexToolDTO.page() != null || indexToolDTO.perPage() != null) {
             Integer page = indexToolDTO.page() != null ? indexToolDTO.page() : 1;
-            Integer perPage = indexToolDTO.per_page() != null ? indexToolDTO.per_page() : 10;
+            Integer perPage = indexToolDTO.perPage() != null ? indexToolDTO.perPage() : 10;
 
             pageable = Pageable.ofSize(perPage).withPage(page - 1);
 

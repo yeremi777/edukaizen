@@ -11,7 +11,7 @@ import com.kokuu.edukaizen.common.Password;
 import com.kokuu.edukaizen.dto.auth.LoginDTO;
 import com.kokuu.edukaizen.dto.auth.RegisterDTO;
 import com.kokuu.edukaizen.entities.User;
-import com.kokuu.edukaizen.services.auth.AuthService;
+import com.kokuu.edukaizen.services.user.UserService;
 
 import jakarta.validation.Valid;
 
@@ -21,17 +21,24 @@ public class AuthController {
     private static record AuthResponse(boolean success, String message) {
     }
 
-    private final AuthService authService;
+    private final UserService authService;
     private final Password password;
 
-    public AuthController(AuthService authService, Password password) {
+    public AuthController(UserService authService, Password password) {
         this.authService = authService;
         this.password = password;
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterDTO input) {
-        authService.register(input);
+        User user = new User(
+                input.firstName(),
+                input.lastName(),
+                input.username(),
+                input.email(),
+                input.password());
+
+        authService.save(user);
 
         return ResponseEntity.ok().body(new AuthResponse(true, "Register successfully"));
     }

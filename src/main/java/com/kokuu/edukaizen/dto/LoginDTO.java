@@ -1,4 +1,4 @@
-package com.kokuu.edukaizen.dto.auth;
+package com.kokuu.edukaizen.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

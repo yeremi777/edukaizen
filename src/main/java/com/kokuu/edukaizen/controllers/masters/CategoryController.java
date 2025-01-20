@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.kokuu.edukaizen.api_docs.CategoryApiDoc;
-import com.kokuu.edukaizen.dto.PaginatedResult;
+import com.kokuu.edukaizen.dto.PaginatedResultDTO;
 import com.kokuu.edukaizen.dto.masters.category.IndexCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.UpdateCategoryDTO;
@@ -47,8 +47,8 @@ public class CategoryController implements CategoryApiDoc {
 
         Object result = categoryService.getCategories(indexCategoryDTO);
 
-        if (result instanceof PaginatedResult<?>) {
-            PaginatedResult<?> paginatedResult = (PaginatedResult<?>) result;
+        if (result instanceof PaginatedResultDTO<?>) {
+            PaginatedResultDTO<?> paginatedResult = (PaginatedResultDTO<?>) result;
 
             PaginatedResponseHandler response = new PaginatedResponseHandler(
                     paginatedResult.getData(),

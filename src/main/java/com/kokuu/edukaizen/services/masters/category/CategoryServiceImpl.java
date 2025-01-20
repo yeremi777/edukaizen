@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.kokuu.edukaizen.dao.masters.CategoryRepository;
-import com.kokuu.edukaizen.dto.PaginatedResult;
+import com.kokuu.edukaizen.dto.PaginatedResultDTO;
 import com.kokuu.edukaizen.dto.masters.category.IndexCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.UpdateCategoryDTO;
@@ -53,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
 
             pageable = Pageable.ofSize(perPage).withPage(page - 1);
 
-            return new PaginatedResult<>(categoryRepository.findAll(spec, pageable));
+            return new PaginatedResultDTO<>(categoryRepository.findAll(spec, pageable));
         }
 
         return categoryRepository.findAll(spec);

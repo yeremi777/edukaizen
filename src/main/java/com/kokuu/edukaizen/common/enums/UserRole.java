@@ -1,9 +1,9 @@
 package com.kokuu.edukaizen.common.enums;
 
 public enum UserRole {
-    Admin(1),
-    Instructor(2),
-    Student(3);
+    ADMIN(1),
+    INSTRUCTOR(2),
+    STUDENT(3);
 
     private final int value;
 

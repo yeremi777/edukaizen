@@ -1,4 +1,4 @@
-package com.kokuu.edukaizen.dto.auth;
+package com.kokuu.edukaizen.dto;
 
 import com.kokuu.edukaizen.common.annotations.IsEqualTo;
 

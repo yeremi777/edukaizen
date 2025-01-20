@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.kokuu.edukaizen.dao.masters.LanguageRepository;
-import com.kokuu.edukaizen.dto.PaginatedResult;
+import com.kokuu.edukaizen.dto.PaginatedResultDTO;
 import com.kokuu.edukaizen.dto.masters.language.IndexLanguageDTO;
 import com.kokuu.edukaizen.dto.masters.language.StoreLanguageDTO;
 import com.kokuu.edukaizen.entities.masters.Language;
@@ -41,7 +41,7 @@ public class LanguageServiceImpl implements LanguageService {
 
             pageable = Pageable.ofSize(perPage).withPage(page - 1);
 
-            return new PaginatedResult<>(languageRepository.findAll(spec, pageable));
+            return new PaginatedResultDTO<>(languageRepository.findAll(spec, pageable));
         }
 
         return languageRepository.findAll(spec);

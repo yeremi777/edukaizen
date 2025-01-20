@@ -7,11 +7,11 @@ import org.springframework.data.domain.Page;
 import lombok.Getter;
 
 @Getter
-public class PaginatedResult<T> {
+public class PaginatedResultDTO<T> {
     private List<T> data;
     private Paginator paginate;
 
-    public PaginatedResult(Page<T> page) {
+    public PaginatedResultDTO(Page<T> page) {
         this.data = page.getContent();
         this.paginate = new Paginator(page);
     }

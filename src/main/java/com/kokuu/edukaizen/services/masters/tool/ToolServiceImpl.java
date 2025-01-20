@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.kokuu.edukaizen.dao.masters.ToolRepository;
-import com.kokuu.edukaizen.dto.PaginatedResult;
+import com.kokuu.edukaizen.dto.PaginatedResultDTO;
 import com.kokuu.edukaizen.dto.masters.tool.IndexToolDTO;
 import com.kokuu.edukaizen.dto.masters.tool.StoreToolDTO;
 import com.kokuu.edukaizen.entities.masters.Tool;
@@ -41,7 +41,7 @@ public class ToolServiceImpl implements ToolService {
 
             pageable = Pageable.ofSize(perPage).withPage(page - 1);
 
-            return new PaginatedResult<>(toolRepository.findAll(spec, pageable));
+            return new PaginatedResultDTO<>(toolRepository.findAll(spec, pageable));
         }
 
         return toolRepository.findAll(spec);

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -13,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.kokuu.edukaizen.common.JWT;
 import com.kokuu.edukaizen.common.UserInfoDetails;
 import com.kokuu.edukaizen.dao.UserRepository;
+import com.kokuu.edukaizen.dto.UserDTO;
 import com.kokuu.edukaizen.entities.User;
 
 import io.jsonwebtoken.Claims;
@@ -25,13 +27,15 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final JWT jwt;
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
     private static final List<String> EXCLUDED_PATHS = List.of(
             "/api/auth/login",
             "/api/auth/register");
 
-    public JWTAuthenticationFilter(JWT jwt, UserRepository userRepository) {
+    public JWTAuthenticationFilter(JWT jwt, UserRepository userRepository, ModelMapper modelMapper) {
         this.jwt = jwt;
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -79,9 +83,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            UserInfoDetails userDetails = new UserInfoDetails(user.get());
-
-            System.out.println(userDetails.getUser());
+            UserInfoDetails userDetails = new UserInfoDetails(modelMapper.map(user.get(), UserDTO.class));
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());

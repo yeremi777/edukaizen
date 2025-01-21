@@ -7,16 +7,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.kokuu.edukaizen.entities.User;
+import com.kokuu.edukaizen.dto.UserDTO;
 
 public class UserInfoDetails implements UserDetails {
-    private final User user;
+    private final UserDTO user;
 
-    public UserInfoDetails(User user) {
+    public UserInfoDetails(UserDTO user) {
         this.user = user;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return this.user;
     }
 

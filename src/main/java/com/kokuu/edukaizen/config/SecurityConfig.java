@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                        .requestMatchers("/api/docs/**", "/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("api/master/**").hasRole(UserRole.ADMIN.toString())
                         .anyRequest().authenticated())
                 .exceptionHandling((exceptionHandling) -> exceptionHandling

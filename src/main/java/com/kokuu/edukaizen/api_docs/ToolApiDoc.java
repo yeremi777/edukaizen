@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.kokuu.edukaizen.dto.masters.tool.StoreToolDTO;
-import com.kokuu.edukaizen.entities.masters.Tool;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,7 +26,7 @@ public interface ToolApiDoc {
 	})
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
-					@Content(schema = @Schema(type = "array", implementation = Tool.class), mediaType = "application/json", examples = {
+					@Content(schema = @Schema(type = "array"), mediaType = "application/json", examples = {
 							@ExampleObject(name = "Without pagination response", value = """
 									[{
 									    "id": 0,

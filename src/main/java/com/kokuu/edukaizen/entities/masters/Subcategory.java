@@ -29,7 +29,7 @@ public class Subcategory {
     private int id;
 
     @Column(name = "category_id", insertable = false, updatable = false)
-    private int category_id;
+    private int categoryId;
 
     @Column(name = "name")
     private String name;

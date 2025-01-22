@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.kokuu.edukaizen.api_docs.AuthApiDoc;
 import com.kokuu.edukaizen.common.JWT;
 import com.kokuu.edukaizen.common.Password;
 import com.kokuu.edukaizen.dto.LoginDTO;
@@ -23,7 +26,8 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements AuthApiDoc {
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     private static record AuthResponse(
             boolean success,
             String message,
@@ -38,13 +42,13 @@ public class AuthController {
     private final UserService authService;
     private final Password password;
     private final JWT jwt;
-    private final ModelMapper modelMapper;
 
-    public AuthController(UserService authService, Password password, JWT jwt, ModelMapper modelMapper) {
+    private static final ModelMapper modelMapper = new ModelMapper();
+
+    public AuthController(UserService authService, Password password, JWT jwt) {
         this.authService = authService;
         this.password = password;
         this.jwt = jwt;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/register")
@@ -62,6 +66,8 @@ public class AuthController {
 
         String token = jwt.signToken((long) user.getId(), user.getEmail());
         UserDTO userOutput = modelMapper.map(user, UserDTO.class);
+
+        System.out.println(userOutput);
 
         return ResponseEntity.ok()
                 .body(new AuthResponse(

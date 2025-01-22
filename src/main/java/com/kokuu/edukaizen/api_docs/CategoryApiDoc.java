@@ -6,7 +6,6 @@ import org.springframework.util.MultiValueMap;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.kokuu.edukaizen.dto.masters.category.StoreCategoryDTO;
 import com.kokuu.edukaizen.dto.masters.category.UpdateCategoryDTO;
-import com.kokuu.edukaizen.entities.masters.Category;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,7 +26,7 @@ public interface CategoryApiDoc {
     })
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {
-                    @Content(schema = @Schema(type = "array", implementation = Category.class), mediaType = "application/json", examples = {
+                    @Content(schema = @Schema(type = "array"), mediaType = "application/json", examples = {
                             @ExampleObject(name = "Without pagination response", value = """
                                     [{
                                         "id": 0,

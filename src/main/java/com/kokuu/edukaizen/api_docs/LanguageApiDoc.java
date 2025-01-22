@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.kokuu.edukaizen.dto.masters.language.StoreLanguageDTO;
-import com.kokuu.edukaizen.entities.masters.Language;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,7 +25,7 @@ public interface LanguageApiDoc {
 	})
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
-					@Content(schema = @Schema(type = "array", implementation = Language.class), mediaType = "application/json", examples = {
+					@Content(schema = @Schema(type = "array"), mediaType = "application/json", examples = {
 							@ExampleObject(name = "Without pagination response", value = """
 									[{
 									    "id": 0,

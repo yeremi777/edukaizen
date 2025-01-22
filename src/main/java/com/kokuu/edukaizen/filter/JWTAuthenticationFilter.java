@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.kokuu.edukaizen.common.JWT;
@@ -27,15 +28,19 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final JWT jwt;
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
+
+    private static final ModelMapper modelMapper = new ModelMapper();
+    private static final AntPathMatcher pathMatcher = new AntPathMatcher();
     private static final List<String> EXCLUDED_PATHS = List.of(
             "/api/auth/login",
-            "/api/auth/register");
+            "/api/auth/register",
+            "/api/docs/**",
+            "/api-docs/**",
+            "/swagger-ui/**");
 
-    public JWTAuthenticationFilter(JWT jwt, UserRepository userRepository, ModelMapper modelMapper) {
+    public JWTAuthenticationFilter(JWT jwt, UserRepository userRepository) {
         this.jwt = jwt;
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -44,7 +49,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String token = null;
 
-        if (EXCLUDED_PATHS.contains(request.getRequestURI())) {
+        boolean shouldSkipFilter = EXCLUDED_PATHS.stream().anyMatch(
+                pattern -> pathMatcher.match(pattern, request.getRequestURI()));
+
+        if (shouldSkipFilter) {
             filterChain.doFilter(request, response);
             return;
         }
